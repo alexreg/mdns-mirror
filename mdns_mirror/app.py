@@ -31,7 +31,6 @@ from zeroconf.const import _SERVICE_TYPE_ENUMERATION_NAME
 
 from .common import EllipsisType, get_show_default, init_logging
 
-MAX_RETRIES: int = 3
 GET_SERVICE_INFO_TIMEOUT: int = 10000
 
 _T = TypeVar("_T")
@@ -53,15 +52,6 @@ class ServerInfo:
         self.ipv4_address = ipv4_address
         self.ipv6_address = ipv6_address
         self.ttl = ttl
-
-
-def retry(callable: Callable[[], Optional[_T]], max_retries: int = MAX_RETRIES) -> _T:
-    for n in range(MAX_RETRIES):
-        result = callable()
-        if result is not None:
-            return result
-
-    raise RuntimeError(f"no result returned after {max_retries} retries")
 
 
 def log_fatal_error() -> None:
