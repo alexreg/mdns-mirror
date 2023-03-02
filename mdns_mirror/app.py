@@ -286,6 +286,7 @@ def command(
         mirror_mdns(dns_server, dns_zone)
     except Exception:
         fatal_error()
+        raise Exit(1)
 
 
 def main() -> None:
