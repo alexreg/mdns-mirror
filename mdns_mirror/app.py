@@ -64,7 +64,7 @@ def retry(callable: Callable[[], Optional[_T]], max_retries: int = MAX_RETRIES) 
     raise RuntimeError(f"no result returned after {max_retries} retries")
 
 
-def fatal_error() -> None:
+def log_fatal_error() -> None:
     logging.exception("Fatal error")
     secho("A fatal error occurred.", fg=colors.RED, err=True)
 
@@ -130,7 +130,7 @@ def mirror_mdns(dns_server: str, dns_zone: str) -> None:
             else:
                 raise RuntimeError("unexpected state change from service type listener")
         except Exception:
-            fatal_error()
+            log_fatal_error()
             error_event.set()
 
     def server_updated(server: str, server_info: ServerInfo) -> None:
@@ -236,7 +236,7 @@ def mirror_mdns(dns_server: str, dns_zone: str) -> None:
                 else:
                     logging.info(f"Could not get updated info for service '{name}'")
         except Exception:
-            fatal_error()
+            log_fatal_error()
             error_event.set()
 
     service_type_browser = ServiceBrowser(
@@ -285,7 +285,7 @@ def command(
     try:
         mirror_mdns(dns_server, dns_zone)
     except Exception:
-        fatal_error()
+        log_fatal_error()
         raise Exit(1)
 
 
