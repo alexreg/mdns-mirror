@@ -6,7 +6,7 @@ StartLimitBurst=3
 StartLimitIntervalSec=600
 
 [Service]
-ExecStart=/usr/bin/env LOGLEVEL=info mdns-mirror
+ExecStart=/usr/bin/env LOGLEVEL=info mdns-mirror -s 127.0.0.1
 Restart=on-failure
 RestartSec=3
 
