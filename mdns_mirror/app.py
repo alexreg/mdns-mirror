@@ -210,14 +210,15 @@ def mirror_mdns(dns_server: str, dns_zone: str) -> None:
             if state_change == ServiceStateChange.Added:
                 logging.info(f"Service '{name}' added")
 
-                service_info = retry(
-                    lambda: zc.get_service_info(
-                        service_type, name, timeout=GET_SERVICE_INFO_TIMEOUT
-                    )
+                service_info = zc.get_service_info(
+                    service_type, name, timeout=GET_SERVICE_INFO_TIMEOUT
                 )
-                logging.info(f"Service '{name}' got initial info")
 
-                service_updated(name, service_info)
+                if service_info is not None:
+                    logging.info(f"Service '{name}' got initial info")
+                    service_updated(name, service_info)
+                else:
+                    logging.info(f"Could not get initial info for service '{name}'")
             elif state_change == ServiceStateChange.Removed:
                 logging.info(f"Service '{name}' removed")
 
@@ -225,14 +226,15 @@ def mirror_mdns(dns_server: str, dns_zone: str) -> None:
             elif state_change == ServiceStateChange.Updated:
                 logging.info(f"Service '{name}' updated")
 
-                service_info = retry(
-                    lambda: zc.get_service_info(
-                        service_type, name, timeout=GET_SERVICE_INFO_TIMEOUT
-                    )
+                service_info = zc.get_service_info(
+                    service_type, name, timeout=GET_SERVICE_INFO_TIMEOUT
                 )
-                logging.info(f"Service '{name}' got updated info")
 
-                service_updated(name, service_info)
+                if service_info is not None:
+                    logging.info(f"Service '{name}' got updated info")
+                    service_updated(name, service_info)
+                else:
+                    logging.info(f"Could not get updated info for service '{name}'")
         except Exception:
             fatal_error()
             error_event.set()
