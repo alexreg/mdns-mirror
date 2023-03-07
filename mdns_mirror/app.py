@@ -250,6 +250,9 @@ def mirror_mdns(dns_server: str, dns_zone: str) -> None:
 
     zc.close()
 
+    if error_event.is_set():
+        raise Exit(1)
+
 
 def get_default_dns_server() -> Union[str, EllipsisType]:
     resolver = dns.resolver.Resolver()
