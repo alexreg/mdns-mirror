@@ -4,7 +4,7 @@ description = "Mirror mDNS hostnames on a DNS server"
 name = "mdns-mirror"
 packages = [{include = "mdns_mirror"}]
 readme = "README.md"
-version = "0.1.0"
+version = "0.1.1"
 
 [tool.poetry.dependencies]
 dnspython = "^2.3.0"
